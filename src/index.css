@@ -1,19 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Space Grotesk", "Inter", sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
 }
 
-html {
-  scroll-behavior: smooth;
+@keyframes slide-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
 }
 
-body {
-  background-color: #050505;
-  color: #fff;
-  overflow-x: hidden;
+@utility animate-slide-progress {
+  animation: slide-progress 9s linear forwards;
 }
 
+@keyframes rgb-text {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+@utility animate-rgb-text {
+  background: linear-gradient(to right, #ff2a2a, #ff7a2a, #e6d800, #00e600, #00a2ff, #7a00ff, #ff00e6, #ff2a2a);
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: rgb-text 2.5s linear infinite;
+}

@@ -36,9 +36,9 @@ export const GameFeature = ({
   buttons
 }: GameFeatureProps) => {
   return (
-    <div className="relative w-full bg-[#030303] group/game z-10">
+    <div className="relative w-full h-[150vh] bg-[#030303] group/game z-10">
       {/* Sticky Background Media Container */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden z-0">
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
         {bgVideo ? (
           <video 
             src={bgVideo} 
@@ -46,7 +46,7 @@ export const GameFeature = ({
             loop 
             muted 
             playsInline
-            className="w-full h-full object-cover object-top opacity-60 transition-transform duration-1000 group-hover/game:scale-105"
+            className="w-full h-full object-cover object-top opacity-60 transition-opacity duration-700 group-hover/game:opacity-80"
           />
         ) : (
           <img 
@@ -56,95 +56,83 @@ export const GameFeature = ({
           />
         )}
         
-        {/* Dark overlay gradients for readability */}
-        <div className="absolute inset-0 bg-black/20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#030303] via-[#030303]/60 to-transparent" />
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-black/30" />
         
-        {/* Blurry mask effect at the bottom half to make the scroll text pop out */}
-        <div 
-          className="absolute inset-x-0 bottom-[-1px] h-[50%] pointer-events-none" 
-          style={{ 
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
-            maskImage: 'linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0) 100%)',
-            WebkitMaskImage: 'linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0) 100%)'
-          }} 
-        />
+        {/* Deep fade to pure black at the bottom to blend with subsequent sections */}
+        <div className="absolute inset-x-0 bottom-[-1px] h-[30%] bg-gradient-to-t from-[#030303] via-[#030303]/80 to-transparent pointer-events-none" />
       </div>
 
-      {/* Spacer to delay text entry slightly */}
-      <div className="h-[25vh] w-full" />
+      {/* Scrolling Content Container overlaying the sticky background */}
+      <div className="absolute top-0 left-0 w-full h-screen flex flex-col justify-end pointer-events-none pb-16 md:pb-24 z-20">
+        {/* Inner constrained block */}
+        <div className="w-full max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-end gap-12 relative z-30 pointer-events-auto">
+          {/* Game Logo */}
+          <div className="w-48 md:w-64 flex-shrink-0 mb-4 md:mb-0">
+            {typeof gameLogo === 'string' ? (
+              <img src={gameLogo} alt="Game Logo" className="w-full h-auto drop-shadow-2xl" />
+            ) : (
+              <div className="text-white text-5xl font-black drop-shadow-2xl leading-none tracking-tighter">
+                {gameLogo}
+              </div>
+            )}
+          </div>
 
-      {/* Content Container */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-end gap-10 md:gap-16 pointer-events-none">
-        {/* Game Logo */}
-        <div className="w-48 md:w-72 flex-shrink-0 mb-4 md:mb-0 pointer-events-auto">
-          {typeof gameLogo === 'string' ? (
-            <img src={gameLogo} alt="Game Logo" className="w-full h-auto drop-shadow-2xl hover:scale-105 transition-transform duration-500" />
-          ) : (
-            <div className="text-white text-5xl font-black drop-shadow-2xl leading-none tracking-tighter">
-              {gameLogo}
+          {/* Details Area */}
+          <div className="flex-1 flex flex-col space-y-6">
+            <div className="space-y-4">
+              {breadcrumb && (
+                <p className="text-white/80 font-display font-semibold tracking-wide text-sm md:text-base">
+                  {breadcrumb.split('/').map((part, idx, arr) => (
+                    <span key={idx}>
+                      {part.trim()}
+                      {idx < arr.length - 1 && <span className="mx-2 text-white/40">/</span>}
+                    </span>
+                  ))}
+                </p>
+              )}
+              {description && (
+                <p className="text-white text-lg md:text-xl font-display font-medium max-w-3xl leading-relaxed text-shadow-sm">
+                  {description}
+                </p>
+              )}
             </div>
-          )}
-        </div>
 
-        {/* Details Area */}
-        <div className="flex-1 flex flex-col space-y-6 md:space-y-8 max-w-3xl pointer-events-auto">
-          <div className="space-y-4">
-            {breadcrumb && (
-              <p className="text-white/80 font-display font-semibold tracking-wide text-sm md:text-base drop-shadow-md">
-                {breadcrumb.split('/').map((part, idx, arr) => (
-                  <span key={idx}>
-                    {part.trim()}
-                    {idx < arr.length - 1 && <span className="mx-3 text-white/40">/</span>}
-                  </span>
-                ))}
-              </p>
-            )}
-            {description && (
-              <p className="text-white text-lg md:text-xl font-display font-medium leading-relaxed drop-shadow-lg text-shadow-sm">
-                {description}
-              </p>
-            )}
-          </div>
+            <div className="flex flex-col xl:flex-row xl:items-center gap-6 xl:gap-12 pb-4">
+              {/* Buttons */}
+              {buttons && buttons.length > 0 && (
+                <div className="flex flex-wrap gap-4">
+                  {buttons.map((btn, idx) => (
+                    <a 
+                      key={idx}
+                      href={btn.action}
+                      className={`flex items-center px-6 py-3 rounded-full text-sm font-display font-bold uppercase transition-transform hover:scale-105 ${
+                        btn.primary 
+                          ? 'bg-white text-black hover:bg-gray-200' 
+                          : 'border z-20 border-white text-white hover:bg-white hover:text-black'
+                      }`}
+                    >
+                      {btn.icon && <span className="mr-2">{btn.icon}</span>}
+                      {btn.label}
+                    </a>
+                  ))}
+                </div>
+              )}
 
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-6 pb-4">
-            {/* Buttons */}
-            {buttons && buttons.length > 0 && (
-              <div className="flex flex-wrap items-center gap-4">
-                {buttons.map((btn, idx) => (
-                  <a 
-                    key={idx}
-                    href={btn.action}
-                    className={`flex items-center px-8 py-3.5 rounded-full text-[13px] tracking-widest font-display font-bold uppercase transition-all duration-300 hover:scale-105 ${
-                      btn.primary 
-                        ? 'bg-white text-black hover:bg-gray-200 shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]' 
-                        : 'border border-white/40 text-white hover:bg-white hover:text-black backdrop-blur-sm shadow-lg'
-                    }`}
-                  >
-                    {btn.icon && <span className="mr-2">{btn.icon}</span>}
-                    {btn.label}
-                  </a>
-                ))}
-              </div>
-            )}
-
-            {/* Platforms */}
-            {platforms && platforms.length > 0 && (
-              <div className="flex flex-wrap items-center gap-6 text-white opacity-80">
-                {platforms.map((plat) => (
-                  <div key={plat.id} className="flex items-center hover:text-white transition-colors duration-300" title={plat.label}>
-                     {plat.icon}
-                  </div>
-                ))}
-              </div>
-            )}
+              {/* Platforms */}
+              {platforms && platforms.length > 0 && (
+                <div className="flex flex-wrap items-center gap-6 text-white mt-4 xl:mt-0">
+                  {platforms.map((plat) => (
+                    <div key={plat.id} className="flex items-center opacity-80 hover:opacity-100 transition-opacity" title={plat.label}>
+                       {plat.icon}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
-      
-      {/* Spacer after text to allow text to rise to the middle of the viewport before the background un-sticks and scrolls out */}
-      <div className="h-[30vh] md:h-[45vh] w-full" />
     </div>
   );
 };

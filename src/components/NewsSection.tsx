@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 const newsData = [
   {
@@ -56,19 +55,15 @@ export const NewsSection = () => {
            <p className="text-gray-400 mt-4 text-lg md:text-xl font-light max-w-xl">Project updates, events, and community highlights coming straight from the Neopix Studio floor.</p>
         </motion.div>
         
-        <motion.div 
+        <motion.button 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6, delay: 0.2 }}
+          className="group flex items-center gap-3 text-white border border-white/20 px-8 py-4 rounded-full hover:bg-white hover:text-black transition-all duration-300 font-display font-bold uppercase tracking-widest text-sm whitespace-nowrap hidden md:flex"
         >
-          <Link 
-            to="/projects"
-            className="group flex items-center gap-3 text-white border border-white/20 px-8 py-4 rounded-full hover:bg-white hover:text-black transition-all duration-300 font-display font-bold uppercase tracking-widest text-sm whitespace-nowrap hidden md:flex"
-          >
-            View All <ArrowUpRight className="w-5 h-5 group-hover:rotate-45 transition-transform duration-300" />
-          </Link>
-        </motion.div>
+          View All <ArrowUpRight className="w-5 h-5 group-hover:rotate-45 transition-transform duration-300" />
+        </motion.button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 w-full">
@@ -124,12 +119,9 @@ export const NewsSection = () => {
 
       {/* Mobile View All Button */}
       <div className="mt-12 flex justify-center md:hidden">
-        <Link 
-          to="/projects"
-          className="group flex items-center gap-3 text-white border border-white/20 px-8 py-4 rounded-full hover:bg-white hover:text-black transition-all duration-300 font-display font-bold uppercase tracking-widest text-sm w-full justify-center"
-        >
+        <button className="group flex items-center gap-3 text-white border border-white/20 px-8 py-4 rounded-full hover:bg-white hover:text-black transition-all duration-300 font-display font-bold uppercase tracking-widest text-sm w-full justify-center">
           View All <ArrowUpRight className="w-5 h-5 group-hover:rotate-45 transition-transform duration-300" />
-        </Link>
+        </button>
       </div>
       </div>
     </section>

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Play } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 // To add more slides, simply add more objects to this array.
 // The slider will automatically loop through them.
@@ -17,12 +18,24 @@ const slides = [
     type: 'trailer',
     brand: 'PROJECT 1',
     title: 'Coming Soon',
-    bgImage: '/img/1.png',
+    bgImage: '/1.png',
     buttons: [
       { label: 'Watch Trailer', icon: <Play className="w-4 h-4 mr-2" fill="currentColor" />, primary: true },
       { label: 'Learn More', primary: false }
     ],
-    logo: <img src="/img/Dignitized.png" alt="Project One Logo" className="w-full h-auto drop-shadow-2xl" />
+    logo: <img src="/Dignitized.png" alt="Project One Logo" className="w-full h-auto drop-shadow-2xl" />
+  },
+  {
+    id: 3,
+    type: 'trailer',
+    brand: 'WE ARE HIRING',
+    title: 'Join Our Team',
+    bgImage: '/2.png',
+    buttons: [
+      { label: 'Careers', primary: true, link: '/careers' },
+      { label: 'Discord', primary: false, link: '#' }
+    ],
+    logo: <img src="/DzLogo.png" alt="Dz Logo" className="w-64 h-auto drop-shadow-2xl" />
   }
 ];
 
@@ -64,7 +77,7 @@ const VisualizerText = ({ text, isPlaying }: { text: string, isPlaying: boolean 
           val = frequencies[binIndex] / 255;
         }
         
-        val = Math.min(val * 1.5, 1);
+        val = Math.min(val * 0.6, 1);
         const color = colors[index % colors.length];
         const percent = val * 100;
 
@@ -172,19 +185,25 @@ export const HeroSlider = () => {
                   <span className="text-sm md:text-base font-display font-bold tracking-widest text-white mb-2">{slides[currentSlide].brand}</span>
                   <h2 className="text-6xl md:text-8xl font-display font-bold text-white tracking-tighter mb-8">{slides[currentSlide].title}</h2>
                   <div className="flex flex-wrap gap-4">
-                    {slides[currentSlide].buttons?.map((btn, idx) => (
-                      <button 
-                        key={idx}
-                        className={`flex items-center px-6 py-3 rounded-full text-sm font-display font-bold uppercase transition-colors ${
-                          btn.primary 
-                            ? 'bg-white text-black hover:bg-gray-200' 
-                            : 'border border-white text-white hover:bg-white hover:text-black'
-                        }`}
-                      >
-                        {btn.icon}
-                        {btn.label}
-                      </button>
-                    ))}
+                    {slides[currentSlide].buttons?.map((btn, idx) => {
+                      const ButtonTag = btn.link ? (btn.link.startsWith('http') ? 'a' : Link) : 'button';
+                      const linkProps = btn.link ? (btn.link.startsWith('http') ? { href: btn.link, target: "_blank", rel: "noopener noreferrer" } : { to: btn.link }) : {};
+                      
+                      return (
+                        <ButtonTag 
+                          key={idx}
+                          {...linkProps}
+                          className={`flex items-center px-6 py-3 rounded-full text-sm font-display font-bold uppercase transition-colors ${
+                            btn.primary 
+                              ? 'bg-white text-black hover:bg-gray-200' 
+                              : 'border border-white text-white hover:bg-white hover:text-black'
+                          }`}
+                        >
+                          {btn.icon}
+                          {btn.label}
+                        </ButtonTag>
+                      );
+                    })}
                   </div>
                 </div>
               </div>

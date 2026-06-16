@@ -2,12 +2,24 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Volume2, VolumeX } from 'lucide-react';
 
-export const AudioPlayer = () => {
+export const AudioPlayer = ({ src = "/pyar.mp3" }: { src?: string }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
+  
+  const getSongName = (url: string) => {
+    try {
+      const filename = url.split('/').pop() || 'Unknown Track';
+      const nameWithoutExtension = filename.substring(0, filename.lastIndexOf('.')) || filename;
+      return decodeURIComponent(nameWithoutExtension).replace(/_/g, ' ');
+    } catch {
+      return 'Unknown Track';
+    }
+  };
+  
+  const songName = getSongName(src);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -73,7 +85,7 @@ export const AudioPlayer = () => {
   return (
     <>
       <audio ref={audioRef} loop crossOrigin="anonymous">
-        <source src="/Main_Zakhmi_Insaan.mp3" type="audio/mpeg" />
+        <source src={src} type="audio/mpeg" />
       </audio>
 
       <AnimatePresence>
@@ -96,8 +108,8 @@ export const AudioPlayer = () => {
                   <VolumeX className="w-5 h-5 opacity-70 group-hover:opacity-100 transition-opacity" />
                 )}
               </div>
-              <span className="whitespace-nowrap pr-5 font-medium text-sm text-gray-200 tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
-                Main Zakhmi Insaan
+              <span className="whitespace-nowrap pr-5 font-medium text-sm text-gray-200 tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100 capitalize">
+                {songName}
               </span>
             </button>
           </motion.div>

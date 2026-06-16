@@ -6,7 +6,7 @@ export const SupportSection = () => {
       {/* Background Graphic */}
       <div className="absolute inset-0 z-0 bg-black">
         <img 
-          src="/img/support.png" 
+          src="/support.png" 
           alt="Support Background" 
           className="w-full h-full object-cover opacity-60"
         />

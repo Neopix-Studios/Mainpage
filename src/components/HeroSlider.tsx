@@ -17,12 +17,24 @@ const slides = [
     type: 'trailer',
     brand: 'PROJECT 1',
     title: 'Coming Soon',
-    bgImage: '/img/1.png',
+    bgImage: '/1.png',
     buttons: [
       { label: 'Watch Trailer', icon: <Play className="w-4 h-4 mr-2" fill="currentColor" />, primary: true },
       { label: 'Learn More', primary: false }
     ],
-    logo: <img src="/img/Dignitized.png" alt="Project One Logo" className="w-full h-auto drop-shadow-2xl" />
+    logo: <img src="/Dignitized.png" alt="Project One Logo" className="w-full h-auto drop-shadow-2xl" />
+  },
+  {
+    id: 3,
+    type: 'trailer',
+    brand: 'NEW GAME',
+    title: 'Discover',
+    bgImage: '/2.png',
+    buttons: [
+      { label: 'Watch Trailer', icon: <Play className="w-4 h-4 mr-2" fill="currentColor" />, primary: true },
+      { label: 'Learn More', primary: false }
+    ],
+    logo: 'OMNIDIRECT'
   }
 ];
 
@@ -64,7 +76,7 @@ const VisualizerText = ({ text, isPlaying }: { text: string, isPlaying: boolean 
           val = frequencies[binIndex] / 255;
         }
         
-        val = Math.min(val * 1.5, 1);
+        val = Math.min(val * 0.6, 1);
         const color = colors[index % colors.length];
         const percent = val * 100;
 

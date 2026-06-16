@@ -12,7 +12,7 @@ export const OmnidirectSection = () => {
       >
         <div className="absolute inset-0 w-full h-full bg-black">
           <img 
-            src="/img/Omnidirect.png" 
+            src="/Omnidirect.png" 
             alt="Omnidirect Tracks" 
             className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.02]"
           />

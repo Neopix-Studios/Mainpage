@@ -1,4 +1,5 @@
 import { YouTubeIcon, InstagramIcon, XIcon, DiscordIcon } from './icons';
+import { Link } from 'react-router-dom';
 
 export const Footer = () => {
   return (
@@ -24,38 +25,30 @@ export const Footer = () => {
         {/* Navigation Area */}
         <div className="md:col-span-2 flex flex-col space-y-5">
           <h4 className="text-[#ff6a00] font-display font-bold tracking-[0.2em] text-xs uppercase mb-2">Company</h4>
-          <a href="#" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">About Us</a>
-          <a href="#" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">Careers</a>
-          <a href="#" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">Press Kit</a>
-          <a href="#" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">Contact</a>
+          <Link to="/about" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">About Us</Link>
+          <Link to="/careers" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">Careers</Link>
+          <Link to="/contact" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">Contact</Link>
         </div>
 
         {/* Social Area */}
         <div className="md:col-span-2 flex flex-col space-y-5">
           <h4 className="text-[#ff6a00] font-display font-bold tracking-[0.2em] text-xs uppercase mb-2">Connect</h4>
-          <a href="#" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">X (Twitter)</a>
-          <a href="#" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">Instagram</a>
-          <a href="#" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">Discord</a>
-          <a href="#" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">Support</a>
+          <a href="https://x.com/neopixstudios" target="_blank" rel="noopener noreferrer" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">X (Twitter)</a>
+          <a href="https://instagram.com/neopix.studios" target="_blank" rel="noopener noreferrer" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">Instagram</a>
+          <a href="https://discord.gg/gkEYqV6rn5" target="_blank" rel="noopener noreferrer" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">Discord</a>
+          <a href="https://discord.gg/GhYdbh7Pe9" target="_blank" rel="noopener noreferrer" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">Support Discord</a>
         </div>
 
         {/* Credits Area */}
         <div className="md:col-span-2 flex flex-col space-y-5">
-          <h4 className="text-[#ff6a00] font-display font-bold tracking-[0.2em] text-xs uppercase mb-2">Credits</h4>
-          <a href="#" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">Developers</a>
-          <a href="#" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">Designers</a>
-          <a href="#" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">Music</a>
-          <a href="#" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">Assets</a>
+          <h4 className="text-[#ff6a00] font-display font-bold tracking-[0.2em] text-xs uppercase mb-2">Attributions</h4>
+          <Link to="/attributions" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">Asset Credits</Link>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto flex flex-col items-center justify-center border-t border-white/10 pt-8 pb-2 gap-6 relative z-10">
         <div className="flex flex-wrap justify-center gap-x-10 gap-y-4">
-          <a href="#" className="text-[#71717a] hover:text-white text-[10px] font-bold tracking-[0.2em] uppercase transition-colors">Terms &amp; Conditions</a>
-          <a href="#" className="text-[#71717a] hover:text-white text-[10px] font-bold tracking-[0.2em] uppercase transition-colors">Privacy Policy</a>
-          <a href="#" className="text-[#71717a] hover:text-white text-[10px] font-bold tracking-[0.2em] uppercase transition-colors">Cookie Policy</a>
-          <a href="#" className="text-[#71717a] hover:text-white text-[10px] font-bold tracking-[0.2em] uppercase transition-colors">Copyright Notice</a>
-          <a href="#" className="text-[#71717a] hover:text-white text-[10px] font-bold tracking-[0.2em] uppercase transition-colors">Legal Disclaimer</a>
+          <Link to="/legal" className="text-[#ff6a00] hover:text-white text-[10px] font-bold tracking-[0.2em] uppercase transition-colors">Legal &amp; Proprietary Notice</Link>
         </div>
         
         <p className="text-[#52525b] text-[10px] font-bold tracking-[0.2em] uppercase mt-2">

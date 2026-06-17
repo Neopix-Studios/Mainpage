@@ -38,11 +38,6 @@ export const Footer = () => {
           <a href="https://discord.gg/gkEYqV6rn5" target="_blank" rel="noopener noreferrer" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">Discord</a>
           <a href="https://discord.gg/GhYdbh7Pe9" target="_blank" rel="noopener noreferrer" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">Support Discord</a>
         </div>
-
-        {/* Credits Area */}
-        <div className="md:col-span-2 flex flex-col space-y-5">
-          {/* Section removed */}
-        </div>
       </div>
 
       <div className="max-w-7xl mx-auto flex flex-col items-center justify-center border-t border-white/10 pt-8 pb-2 gap-6 relative z-10">

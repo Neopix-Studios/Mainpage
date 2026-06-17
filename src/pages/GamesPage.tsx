@@ -15,12 +15,12 @@ const games = [
   },
   {
     id: 2,
-    title: 'Omnidirect',
-    logoText: 'OMNIDIRECT',
-    bgImage: '/Omnidirect.png',
-    status: 'In Development',
-    description: 'Push the limits of speed and physics in this next-generation racer. Coming soon to PC and consoles.',
-    link: '#',
+    title: 'Cryora Records',
+    logoText: 'CRYORA RECORDS',
+    bgImage: '/cryora.png',
+    status: 'Audio Label',
+    description: 'Immerse yourself in the sonic universe. Discover exclusive tracks, cinematic scores, and ambient soundscapes curated for your journey.',
+    link: '/cryora-records',
     trailer: '#'
   }
 ];

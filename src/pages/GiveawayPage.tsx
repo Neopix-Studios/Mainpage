@@ -25,9 +25,9 @@ const giveawayDraws = [
   },
   {
     id: 3,
-    title: "Omnidirect - Founder's Pack",
-    description: "Exclusive cosmetics and original title for Omnidirect.",
-    type: "In-Game Item",
+    title: "Cryora Records - Founder's Pack",
+    description: "Exclusive limited tracks and early concept demos for Cryora Records.",
+    type: "Digital Item",
     image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80",
     status: "Ended",
     entries: "34.2k",

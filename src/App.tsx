@@ -14,7 +14,7 @@ import { ContactPage } from './pages/ContactPage';
 import { LegalPage } from './pages/LegalPage';
 import { PhotosPage } from './pages/PhotosPage';
 import { VideosPage } from './pages/VideosPage';
-import { OmnidirectPage } from './pages/OmnidirectPage';
+import { CryoraRecordsPage } from './pages/CryoraRecordsPage';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Lenis from 'lenis';
 import { Navbar } from './components/Navbar';
@@ -22,7 +22,7 @@ import { HeroSlider } from './components/HeroSlider';
 import { GameFeature } from './components/GameFeature';
 import { SupportSection } from './components/SupportSection';
 import { NewsSection } from './components/NewsSection';
-import { OmnidirectSection } from './components/OmnidirectSection';
+import { CryoraRecordsSection } from './components/CryoraRecordsSection';
 import { Footer } from './components/Footer';
 import { Loader } from './components/Loader';
 import { AudioPlayer } from './components/AudioPlayer';
@@ -67,7 +67,7 @@ function MainLayout({ children }: { children: React.ReactNode }) {
       <Loader onComplete={() => setIsLoaded(true)} />
 
       <div className={`transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-        {location.pathname !== '/omnidirect' && <AudioPlayer />}
+        {location.pathname !== '/cryora-records' && <AudioPlayer />}
         <Navbar />
         
         <main>
@@ -107,9 +107,9 @@ function HomePage() {
         />
       </section>
 
-      {/* Omnidirect Banner Area */}
-      <section id="omnidirect">
-        <OmnidirectSection />
+      {/* Cryora Records Banner Area */}
+      <section id="cryora-records">
+        <CryoraRecordsSection />
       </section>
 
       {/* Support Banner area */}
@@ -137,7 +137,7 @@ export default function App() {
           <Route path="/photos" element={<PhotosPage />} />
           <Route path="/videos" element={<VideosPage />} />
           <Route path="/legal" element={<LegalPage />} />
-          <Route path="/omnidirect" element={<OmnidirectPage />} />
+          <Route path="/cryora-records" element={<CryoraRecordsPage />} />
           <Route path="/403" element={<ErrorPage code="403" title="Access Denied" description="You don't have permission to access this area." />} />
           <Route path="/443" element={<ErrorPage code="443" title="Secure Content" description="This area requires a secure connection to be viewed." />} />
           <Route path="/500" element={<ErrorPage code="500" title="Internal Server Error" description="Something went fundamentally wrong on our end." />} />

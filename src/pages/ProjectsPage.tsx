@@ -39,8 +39,8 @@ const newsItems = [
     id: 5,
     tag: 'ANNOUNCEMENT',
     date: 'May 15, 2026',
-    title: 'Omnidirect: Alpha Testing Phase Announced',
-    image: '/Omnidirect.png',
+    title: 'Cryora Records: Official Label Launch',
+    image: '/cryora.png',
     link: '#'
   },
   {

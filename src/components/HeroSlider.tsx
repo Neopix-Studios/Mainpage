@@ -171,9 +171,16 @@ export const HeroSlider = () => {
                 <p className="text-xl md:text-3xl font-display text-gray-200 font-light">{slides[currentSlide].subtitle}</p>
               </div>
             ) : (
-              <div className="flex flex-col md:flex-row items-end gap-8">
+              <div className="flex flex-col md:flex-row items-end gap-4 md:gap-8">
                 {/* Large Game Logo Area */}
-                <div className="hidden md:flex items-center justify-center w-80 max-w-[20rem]">
+                <div className="flex md:hidden items-center justify-start w-48 mb-4">
+                   {typeof slides[currentSlide].logo === 'string' ? (
+                     <span className="text-2xl font-display font-bold text-white uppercase">{slides[currentSlide].logo}</span>
+                   ) : (
+                     slides[currentSlide].logo
+                   )}
+                </div>
+                <div className="hidden md:flex items-center justify-center w-64 lg:w-80 max-w-[20rem]">
                    {typeof slides[currentSlide].logo === 'string' ? (
                      <span className="text-4xl font-display font-bold text-white uppercase">{slides[currentSlide].logo}</span>
                    ) : (
@@ -181,10 +188,10 @@ export const HeroSlider = () => {
                    )}
                 </div>
                 
-                <div className="flex flex-col items-start">
-                  <span className="text-sm md:text-base font-display font-bold tracking-widest text-white mb-2">{slides[currentSlide].brand}</span>
-                  <h2 className="text-6xl md:text-8xl font-display font-bold text-white tracking-tighter mb-8">{slides[currentSlide].title}</h2>
-                  <div className="flex flex-wrap gap-4">
+                <div className="flex flex-col items-start w-full">
+                  <span className="text-xs md:text-sm lg:text-base font-display font-bold tracking-widest text-white mb-2">{slides[currentSlide].brand}</span>
+                  <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-display font-bold text-white tracking-tighter mb-4 md:mb-8">{slides[currentSlide].title}</h2>
+                  <div className="flex flex-wrap gap-3 md:gap-4 w-full">
                     {slides[currentSlide].buttons?.map((btn, idx) => {
                       const ButtonTag = btn.link ? (btn.link.startsWith('http') ? 'a' : Link) : 'button';
                       const linkProps = btn.link ? (btn.link.startsWith('http') ? { href: btn.link, target: "_blank", rel: "noopener noreferrer" } : { to: btn.link }) : {};
@@ -193,7 +200,7 @@ export const HeroSlider = () => {
                         <ButtonTag 
                           key={idx}
                           {...linkProps}
-                          className={`flex items-center px-6 py-3 rounded-full text-sm font-display font-bold uppercase transition-colors ${
+                          className={`flex items-center justify-center px-4 md:px-6 py-2.5 md:py-3 rounded-full text-xs md:text-sm font-display font-bold uppercase transition-colors flex-1 sm:flex-none ${
                             btn.primary 
                               ? 'bg-white text-black hover:bg-gray-200' 
                               : 'border border-white text-white hover:bg-white hover:text-black'

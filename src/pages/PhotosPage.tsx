@@ -25,8 +25,8 @@ const gameGalleries = [
     ]
   },
   {
-    id: "omnidirect",
-    title: "Omnidirect",
+    id: "cryora-records",
+    title: "Cryora Records",
     subtitle: "Alpha Phase",
     cover: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80",
     photos: [

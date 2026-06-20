@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
-import { Play } from 'lucide-react';
+import { ReactNode, useRef, useState } from 'react';
+import { Play, Square, Pause } from 'lucide-react';
 import { PlaystationIcon, XboxIcon, PCIcon } from './icons';
 
 interface Platform {
@@ -9,11 +9,11 @@ interface Platform {
 }
 
 export const defaultPlatforms: Platform[] = [
-  { id: 'ps5', label: 'PS5', icon: <div className="flex items-center gap-1"><PlaystationIcon className="w-5 h-5" /><span className="font-bold tracking-tighter text-base mt-2">PS5</span></div> },
-  { id: 'ps4', label: 'PS4', icon: <div className="flex items-center gap-1"><PlaystationIcon className="w-5 h-5" /><span className="font-bold tracking-tighter text-base mt-2">PS4</span></div> },
-  { id: 'xsx', label: 'XBOX SERIES X|S', icon: <div className="flex items-center gap-1"><XboxIcon className="w-5 h-5" /><span className="font-bold tracking-tighter text-base">XBOX SERIES X|S</span></div> },
-  { id: 'xb1', label: 'XBOX ONE', icon: <div className="flex items-center gap-1"><XboxIcon className="w-5 h-5" /><span className="font-bold tracking-tighter text-base">XBOX ONE</span></div> },
-  { id: 'pc', label: 'PC', icon: <span className="font-extrabold text-lg tracking-tighter mt-1">PC</span> }
+  { id: 'ps5', label: 'PS5', icon: <div className="flex items-center gap-2"><PlaystationIcon className="w-5 h-5" /><span className="font-bold tracking-tighter text-base">PS5</span></div> },
+  { id: 'ps4', label: 'PS4', icon: <div className="flex items-center gap-2"><PlaystationIcon className="w-5 h-5" /><span className="font-bold tracking-tighter text-base">PS4</span></div> },
+  { id: 'xsx', label: 'XBOX SERIES X|S', icon: <div className="flex items-center gap-2"><XboxIcon className="w-5 h-5" /><span className="font-bold tracking-tighter text-base">XBOX SERIES X|S</span></div> },
+  { id: 'xb1', label: 'XBOX ONE', icon: <div className="flex items-center gap-2"><XboxIcon className="w-5 h-5" /><span className="font-bold tracking-tighter text-base">XBOX ONE</span></div> },
+  { id: 'pc', label: 'PC', icon: <span className="font-extrabold text-base tracking-tighter">PC</span> }
 ];
 
 export interface GameFeatureProps {
@@ -35,30 +35,62 @@ export const GameFeature = ({
   platforms = defaultPlatforms,
   buttons
 }: GameFeatureProps) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  const togglePlay = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
   return (
     <div className="relative w-full bg-[#030303] group/game z-10">
       {/* Sticky Background Media Container */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden z-0">
+      <div className="sticky top-0 h-screen w-full overflow-hidden z-0 pointer-events-auto">
         {bgVideo ? (
-          <video 
-            src={bgVideo} 
-            autoPlay 
-            loop 
-            muted 
-            playsInline
-            className="w-full h-full object-cover object-top opacity-60 transition-transform duration-1000 group-hover/game:scale-105"
-          />
+          <>
+            <div className="absolute inset-0 w-full h-full transition-transform duration-1000 group-hover/game:scale-[1.02]">
+              <video 
+                ref={videoRef}
+                src={bgVideo} 
+                autoPlay 
+                loop 
+                muted 
+                playsInline
+                className="w-full h-full object-cover object-top"
+              />
+              {!isPlaying && (
+                <img 
+                  src={bgImage} 
+                  alt="Thumbnail" 
+                  className="absolute inset-0 w-full h-full object-cover object-top"
+                />
+              )}
+            </div>
+            {/* Play/Pause Button */}
+            <button 
+              onClick={togglePlay}
+              className="absolute top-8 right-8 md:top-12 md:right-12 z-50 w-7 h-7 md:w-9 md:h-9 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-black hover:scale-110 transition-transform shadow-lg cursor-pointer hover:bg-white"
+            >
+              {isPlaying ? <div className="w-2 h-2 md:w-2.5 md:h-2.5 bg-black" /> : <Play className="w-2.5 h-2.5 md:w-3 md:h-3 ml-0.5" fill="currentColor" />}
+            </button>
+          </>
         ) : (
           <img 
             src={bgImage} 
-            alt="Game Background" 
-            className="w-full h-full object-cover object-top opacity-60 transition-transform duration-1000 group-hover/game:scale-105"
+            alt="Game background" 
+            className="w-full h-full object-cover object-top transition-transform duration-1000 group-hover/game:scale-[1.02]"
           />
         )}
         
         {/* Dark overlay gradients for readability */}
-        <div className="absolute inset-0 bg-black/20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#030303] via-[#030303]/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#030303] via-[#030303]/60 to-transparent pointer-events-none" />
         
         {/* Blurry mask effect at the bottom half to make the scroll text pop out */}
         <div 
@@ -72,8 +104,15 @@ export const GameFeature = ({
         />
       </div>
 
-      {/* Spacer to delay text entry slightly */}
-      <div className="h-[25vh] w-full" />
+      {/* 
+        ========================================================================
+        UPPER LIMIT CONTROL
+        Change the 'h-[25vh]' value below to adjust how far up or down the text 
+        container starts scrolling in. For example: 'h-[10vh]' moves it higher, 
+        'h-[50vh]' moves it lower.
+        ======================================================================== 
+      */}
+      <div className="h-[2vh] w-full pointer-events-none" />
 
       {/* Content Container */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-end gap-10 md:gap-16 pointer-events-none">
@@ -92,7 +131,7 @@ export const GameFeature = ({
         <div className="flex-1 flex flex-col space-y-6 md:space-y-8 max-w-3xl pointer-events-auto">
           <div className="space-y-4">
             {breadcrumb && (
-              <p className="text-white/80 font-display font-semibold tracking-wide text-sm md:text-base drop-shadow-md">
+              <p className="text-white font-display font-bold tracking-wide text-sm md:text-base drop-shadow-md">
                 {breadcrumb.split('/').map((part, idx, arr) => (
                   <span key={idx}>
                     {part.trim()}
@@ -143,8 +182,19 @@ export const GameFeature = ({
         </div>
       </div>
       
-      {/* Spacer after text to allow text to rise to the middle of the viewport before the background un-sticks and scrolls out */}
-      <div className="h-[30vh] md:h-[45vh] w-full" />
+      {/* 
+        ========================================================================
+        BLACK BLEND START POINT & TEXT UPPER LIMIT
+        The total height of this block dictates how high the text reaches
+        on the screen before the background video un-sticks and scrolls away.
+        - To make the text go HIGHER on the screen: Increase the 'h-[...]' value below (e.g., h-[30vh] or h-[40vh]).
+        - To make the text stay LOWER (reduce the upper limit): Decrease the 'h-[...]' value below (e.g., h-[10vh] or h-0).
+        ======================================================================== 
+      */}
+      <div className="relative z-10 w-full pointer-events-none mt-[20px] flex flex-col">
+        <div className="h-32 md:h-48 w-full bg-gradient-to-b from-transparent to-[#030303]" />
+        <div className="h-[15vh] md:h-[25vh] w-full bg-[#030303]" />
+      </div>
     </div>
   );
 };

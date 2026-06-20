@@ -97,6 +97,7 @@ function HomePage() {
       <section id="latest-game" className="bg-[#030303] border-t-4 border-black">
         <GameFeature 
           bgImage="/1.png"
+          bgVideo="https://cdn.neopix.in/sample.mp4"
           gameLogo="/Dignitized.png"
           breadcrumb="Games / Project One Online"
           description="Explore Project One Online, a dynamic world for up to 30 players, featuring all updates and content since launch, playable solo or with friends."

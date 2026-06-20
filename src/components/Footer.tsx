@@ -36,11 +36,24 @@ export const Footer = () => {
           <a href="https://x.com/neopixstudios" target="_blank" rel="noopener noreferrer" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">X (Twitter)</a>
           <a href="https://instagram.com/neopix.studios" target="_blank" rel="noopener noreferrer" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">Instagram</a>
           <a href="https://discord.gg/gkEYqV6rn5" target="_blank" rel="noopener noreferrer" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">Discord</a>
-          <a href="https://discord.gg/GhYdbh7Pe9" target="_blank" rel="noopener noreferrer" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">Support Discord</a>
+          <a href="https://discord.gg/GhYdbh7Pe9" target="_blank" rel="noopener noreferrer" className="text-[#a1a1aa] hover:text-[#ff6a00] text-[11px] font-bold tracking-[0.15em] uppercase transition-colors">Support</a>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto flex flex-col items-center justify-center border-t border-white/10 pt-8 pb-2 gap-6 relative z-10">
+        
+        <div className="flex gap-8 justify-center mb-2">
+          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-[#a1a1aa] hover:text-white transition-colors">
+            <YouTubeIcon className="w-5 h-5" />
+          </a>
+          <a href="https://instagram.com/neopix.studios" target="_blank" rel="noopener noreferrer" className="text-[#a1a1aa] hover:text-white transition-colors">
+            <InstagramIcon className="w-5 h-5" />
+          </a>
+          <a href="https://x.com/neopixstudios" target="_blank" rel="noopener noreferrer" className="text-[#a1a1aa] hover:text-white transition-colors">
+            <XIcon className="w-5 h-5" />
+          </a>
+        </div>
+
         <div className="flex flex-wrap justify-center gap-x-10 gap-y-4">
           <Link to="/legal" className="text-[#ff6a00] hover:text-white text-[10px] font-bold tracking-[0.2em] uppercase transition-colors">Legal &amp; Proprietary Notice</Link>
         </div>

@@ -1,6 +1,7 @@
-import { motion } from 'motion/react';
-import { ArrowUpRight, Play } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { ArrowUpRight, Play, Info, Disc } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 const games = [
   {
@@ -9,9 +10,12 @@ const games = [
     logo: '/Dignitized.png',
     bgImage: '/1.png',
     status: 'Available Now',
+    tag: 'Multiplayer Open World',
     description: 'Explore a dynamic world for up to 30 players, featuring all updates and content since launch, playable solo or with friends.',
     link: '#',
-    trailer: '#'
+    trailer: '#',
+    features: ['Co-op', 'PVP', 'Vehicles', 'Base Building'],
+    color: '#ff6a00'
   },
   {
     id: 2,
@@ -19,77 +23,135 @@ const games = [
     logoText: 'CRYORA RECORDS',
     bgImage: '/cryora.png',
     status: 'Audio Label',
+    tag: 'Cinematic Soundscapes',
     description: 'Immerse yourself in the sonic universe. Discover exclusive tracks, cinematic scores, and ambient soundscapes curated for your journey.',
     link: '/cryora-records',
-    trailer: '#'
+    trailer: '#',
+    features: ['24-Bit FLAC', 'Vinyl Drops', 'Stems', 'Merch'],
+    color: '#a3a3a3'
   }
 ];
 
 export const GamesPage = () => {
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+
   return (
-    <div className="min-h-screen bg-[#030303] pt-32 pb-24 px-6 md:px-12 relative z-10 w-full overflow-hidden">
-      <div className="max-w-[1400px] mx-auto w-full">
+    <div className="min-h-screen bg-[#030303] pt-32 pb-32 px-4 md:px-8 xl:px-12 relative z-10 w-full overflow-hidden">
+      {/* Background Ambience based on hovered item */}
+      <AnimatePresence>
+        {hoveredIdx !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1 }}
+            className="fixed inset-0 pointer-events-none z-[-1]"
+          >
+            <div className={`absolute top-0 right-0 w-[80vw] h-[80vw] blur-[200px] rounded-full mix-blend-screen transition-colors duration-1000`} style={{ backgroundColor: `${games[hoveredIdx].color}1A` }} />
+            <div className={`absolute bottom-0 left-0 w-[60vw] h-[60vw] blur-[200px] rounded-full mix-blend-screen transition-colors duration-1000`} style={{ backgroundColor: `${games[hoveredIdx].color}0D` }} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="max-w-[1600px] mx-auto w-full">
+        {/* Header Section */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-16"
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="mb-20 flex flex-col items-center text-center"
         >
-          <h1 className="text-4xl md:text-6xl font-display font-black tracking-tighter text-white mb-4">
-            Game <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/40">Library</span>
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-12 h-[1px] bg-white/30" />
+            <span className="text-xs font-bold tracking-[0.3em] uppercase text-white/50">Universe</span>
+            <div className="w-12 h-[1px] bg-white/30" />
+          </div>
+          <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-white mb-6 uppercase">
+            The <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-[#555]">Library</span>
           </h1>
-          <p className="text-white/60 font-display text-lg max-w-2xl">
-            Discover the worlds we're building. Play now or get a sneak peek at what's coming next.
+          <p className="text-[#888] text-lg max-w-2xl font-light">
+            Discover the worlds we are building. Prepare for deployment across our digital and physical expansions.
           </p>
         </motion.div>
 
-        <div className="flex flex-col gap-12">
+        {/* Cinematic List Layout */}
+        <div className="flex flex-col gap-8 md:gap-16">
           {games.map((game, index) => (
             <motion.div 
               key={game.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 * index }}
-              className="group relative w-full rounded-3xl overflow-hidden border border-white/10 bg-[#0a0a0a]"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              onHoverStart={() => setHoveredIdx(index)}
+              onHoverEnd={() => setHoveredIdx(null)}
+              className="group relative w-full rounded-none overflow-hidden border-y border-white/10 md:border md:rounded-2xl xl:rounded-[2rem] bg-[#050505] min-h-[600px] xl:min-h-[700px] flex items-end"
             >
-              {/* Background */}
-              <div className="absolute inset-0 w-full h-full z-0">
+              {/* Background Art */}
+              <div className="absolute inset-0 w-full h-full z-0 overflow-hidden bg-black">
                 <img 
                   src={game.bgImage} 
                   alt={game.title} 
-                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-40 group-hover:opacity-60"
+                  className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-[1.03] opacity-50 group-hover:opacity-70 filter brightness-75 group-hover:brightness-100"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
+                {/* Vignettes for readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-[#050505]/80 to-transparent opacity-100" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-transparent hidden md:block" />
               </div>
 
-              {/* Content */}
-              <div className="relative z-10 flex flex-col md:flex-row items-center md:items-end p-8 md:p-12 min-h-[400px] gap-8">
-                {/* Logo Area */}
-                <div className="w-full md:w-1/3 flex-shrink-0 flex items-center justify-start">
-                  {game.logo ? (
-                    <img src={game.logo} alt={game.title} className="w-64 max-w-full drop-shadow-2xl" />
-                  ) : (
-                    <h2 className="text-5xl font-display font-black text-white italic tracking-tighter drop-shadow-2xl">{game.logoText}</h2>
-                  )}
-                </div>
+              {/* Foreground Content */}
+              <div className="relative z-10 w-full p-6 md:p-12 xl:p-20 flex flex-col md:flex-row items-start md:items-end justify-between gap-12">
+                
+                {/* Left Side: Logo & Info */}
+                <div className="flex flex-col items-start gap-8 w-full md:max-w-2xl">
+                  {/* Status Tag */}
+                  <div className="flex flex-wrap items-center gap-3">
+                    <span 
+                      className="px-4 py-2 bg-black/50 backdrop-blur-md text-[10px] font-bold uppercase tracking-widest border border-white/10 flex items-center gap-2"
+                      style={{ color: game.color }}
+                    >
+                      <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: game.color }} />
+                      {game.status}
+                    </span>
+                    <span className="px-4 py-2 border border-white/10 text-white/50 text-[10px] font-bold uppercase tracking-widest bg-black/20 backdrop-blur-md">
+                      {game.tag}
+                    </span>
+                  </div>
 
-                {/* Details */}
-                <div className="flex-1 flex flex-col items-start gap-4">
-                  <span className="px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-xs font-display font-bold uppercase tracking-widest text-[#ff6a00] border border-white/10">
-                    {game.status}
-                  </span>
-                  <p className="text-white/80 font-display text-lg max-w-2xl leading-relaxed drop-shadow-md">
+                  {/* Logo or Title */}
+                  <div className="transform transition-transform duration-700 group-hover:-translate-y-2">
+                    {game.logo ? (
+                      <img src={game.logo} alt={game.title} className="w-72 md:w-96 max-w-full drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]" />
+                    ) : (
+                      <h2 className="text-6xl md:text-7xl font-black text-white italic tracking-tighter drop-shadow-xl">{game.logoText}</h2>
+                    )}
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-[#aaa] text-base md:text-lg leading-relaxed max-w-xl group-hover:text-white transition-colors duration-500">
                     {game.description}
                   </p>
-                  <div className="flex flex-wrap gap-4 mt-2">
-                    <button className="flex items-center px-6 py-3 rounded-full text-sm font-display font-bold uppercase transition-transform hover:scale-105 bg-white text-black hover:bg-gray-200">
-                      View Game
-                    </button>
-                    <button className="flex items-center px-6 py-3 rounded-full text-sm font-display font-bold uppercase transition-transform hover:scale-105 border border-white/40 text-white hover:bg-white hover:text-black backdrop-blur-sm">
-                      <Play className="w-4 h-4 mr-2" fill="currentColor" /> Watch Trailer
-                    </button>
+
+                  <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-white/10 w-full">
+                    <span className="text-[10px] text-[#555] uppercase tracking-widest font-bold">Key Specs:</span>
+                    {game.features.map((feature, i) => (
+                      <span key={i} className="text-[10px] font-bold text-white/70 uppercase tracking-wider">{feature}</span>
+                    ))}
                   </div>
+                </div>
+
+                {/* Right Side: Actions */}
+                <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row items-stretch sm:items-center w-full md:w-auto gap-4 shrink-0 transition-transform duration-700 group-hover:-translate-y-2">
+                  <a 
+                    href={game.link}
+                    className="flex items-center justify-center px-8 py-5 text-sm font-bold uppercase tracking-widest transition-all bg-white text-black hover:bg-gray-200"
+                  >
+                    {game.id === 2 ? 'Enter Vault' : 'View Hub'}
+                  </a>
+                  <button className="flex items-center justify-center px-8 py-5 text-sm font-bold uppercase tracking-widest transition-all border border-white/20 text-white hover:bg-white hover:text-black bg-black/40 backdrop-blur-md">
+                    {game.id === 2 ? <Disc className="w-5 h-5 mr-3" /> : <Play className="w-5 h-5 mr-3" fill="currentColor" />}
+                    {game.id === 2 ? 'Listen Now' : 'Watch Trailer'}
+                  </button>
                 </div>
               </div>
             </motion.div>
@@ -99,3 +161,4 @@ export const GamesPage = () => {
     </div>
   );
 };
+

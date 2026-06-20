@@ -1,43 +1,70 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Gift, ArrowRight, CheckCircle2, Key, Clock, Users } from 'lucide-react';
+import { Gift, ArrowRight, CheckCircle2, ChevronRight, Lock, Unlock } from 'lucide-react';
 
 const giveawayDraws = [
   {
     id: 1,
-    title: "Dignitized - Steam Key",
-    description: "Win a legendary copy of Dignitized for Steam. Global region.",
+    title: "Project Dignitized",
+    subtitle: "Ultimate Edition Drop",
+    description: "Exclusive access to the season pass, unique cosmetics, and early build profiles.",
     type: "Game Key",
-    image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&q=80",
+    image: "/2.png",
+    fallbackImage: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&q=80",
     status: "Active",
-    entries: "12.4k",
-    endsIn: "48h"
+    endsIn: 172800,
+    featured: true,
   },
   {
     id: 2,
-    title: "Project One - Beta Access",
-    description: "Secure your spot in the next closed beta test phase.",
+    title: "Project One",
+    subtitle: "Closed Beta Access",
+    description: "Secure your spot in the next test phase. Explore the forbidden zones before public release.",
     type: "Early Access",
-    image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80",
+    image: "/1.png",
+    fallbackImage: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80",
     status: "Active",
-    entries: "8.9k",
-    endsIn: "5d"
+    endsIn: 432000,
+    featured: false,
   },
   {
     id: 3,
-    title: "Cryora Records - Founder's Pack",
-    description: "Exclusive limited tracks and early concept demos for Cryora Records.",
+    title: "Cryora Records",
+    subtitle: "Vault Archives",
+    description: "Exclusive limited tracks and early concept demos for the inner circle.",
     type: "Digital Item",
-    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80",
+    image: "/cryora.png",
+    fallbackImage: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80",
     status: "Ended",
-    entries: "34.2k",
-    endsIn: "Ended"
+    endsIn: 0,
+    featured: false,
   }
 ];
+
+const formatTime = (totalSeconds: number) => {
+  if (totalSeconds <= 0) return { h: '00', m: '00', s: '00' };
+  const h = Math.floor(totalSeconds / 3600);
+  const m = Math.floor((totalSeconds % 3600) / 60);
+  const s = totalSeconds % 60;
+  return {
+    h: h.toString().padStart(2, '0'),
+    m: m.toString().padStart(2, '0'),
+    s: s.toString().padStart(2, '0')
+  };
+};
 
 export const GiveawayPage = () => {
   const [selectedGiveaway, setSelectedGiveaway] = useState<number | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [time, setTime] = useState(172800);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTime((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,207 +73,286 @@ export const GiveawayPage = () => {
     }, 800);
   };
 
+  const featured = giveawayDraws.find(g => g.featured)!;
+  const standardGiveaways = giveawayDraws.filter(g => !g.featured);
+
   return (
-    <div className="min-h-screen pt-32 pb-24 px-6 md:px-12 bg-[#030303] text-white relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-white/5 rounded-full blur-[120px] pointer-events-none" />
+    <div ref={containerRef} className="min-h-screen bg-[#020202] text-white font-sans pt-32 pb-32 relative z-10 w-full overflow-hidden">
+      {/* Absolute Ambient Background */}
+      <div className="fixed inset-0 pointer-events-none z-[-1]">
+        <div className="absolute top-[-20%] right-[-10%] w-[80vw] h-[80vw] bg-[#ff6a00]/[0.015] blur-[150px] rounded-full" />
+        <div className="absolute bottom-[-20%] left-[-10%] w-[80vw] h-[80vw] bg-[#ffffff]/[0.01] blur-[150px] rounded-full" />
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay" />
+      </div>
 
-      <div className="max-w-[1400px] w-full mx-auto relative z-10">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16 md:mb-24"
-        >
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/10 mb-6 border border-white/10">
-            <Gift className="w-8 h-8 text-white" />
-          </div>
-          <h1 className="text-4xl md:text-6xl font-display font-black tracking-tighter uppercase mb-6 drop-shadow-lg">
-            Active <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-[#ff6a00]">Giveaways</span>
-          </h1>
-          <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed font-medium">
-            Enter now for a chance to win exclusive game keys, early access passes, and limited edition items. We will be adding more soon!
-          </p>
-        </motion.div>
-
+      <div className="max-w-[1400px] w-full mx-auto relative px-6 md:px-12">
         <AnimatePresence mode="wait">
           {!selectedGiveaway ? (
             <motion.div 
-              key="grid"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              key="main-view"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, y: -20, filter: "blur(5px)" }}
+              transition={{ duration: 0.5 }}
             >
-              {giveawayDraws.map((giveaway, index) => (
-                <motion.div
-                  key={giveaway.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.5 }}
-                  className={`group relative rounded-3xl overflow-hidden border border-white/10 bg-[#0a0a0a] shadow-2xl flex flex-col ${giveaway.status === 'Ended' ? 'opacity-60 grayscale' : 'hover:border-[#ff6a00]/40'} transition-all`}
+              {/* Header */}
+              <div className="flex flex-col items-center text-center mb-24">
+                <motion.div 
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  className="w-16 h-16 border border-white/10 bg-white/5 flex items-center justify-center mb-8 rotate-45"
                 >
-                  <div className="relative h-48 md:h-56 overflow-hidden">
-                    <img src={giveaway.image} alt={giveaway.title} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
+                  <Gift className="w-6 h-6 text-[#ff6a00] -rotate-45" />
+                </motion.div>
+                <h1 className="text-5xl md:text-7xl font-medium tracking-tight text-white mb-6 uppercase">
+                  Studio <span className="text-[#888]">Drops</span>
+                </h1>
+                <p className="text-[#888] text-lg max-w-2xl font-light">
+                  Exclusive allocations, early profiles, and physical goods. Authenticate to participate in active drops.
+                </p>
+              </div>
+
+              {/* Featured Drop */}
+              <div className="mb-24">
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="h-[1px] bg-white/20 flex-1" />
+                  <span className="text-xs font-bold tracking-[0.2em] uppercase text-white/50 px-4">Priority Access</span>
+                  <div className="h-[1px] bg-white/20 flex-1" />
+                </div>
+
+                <motion.div 
+                  className="w-full relative bg-[#050505] border border-white/10 group overflow-hidden"
+                >
+                  <div className="grid grid-cols-1 lg:grid-cols-2">
+                    <div className="relative h-[400px] lg:h-[600px] overflow-hidden">
+                       <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#050505]/90 z-10 hidden lg:block" />
+                       <div className="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent z-10 block lg:hidden" />
+                       <img 
+                          src={featured.image}
+                          onError={(e) => { e.currentTarget.src = featured.fallbackImage }}
+                          alt={featured.title} 
+                          className="w-full h-full object-cover opacity-60 scale-105 group-hover:scale-100 transition-transform duration-[1.5s]"
+                        />
+                    </div>
                     
-                    <div className="absolute top-4 right-4 flex gap-2">
-                       <span className={`px-3 py-1 text-[10px] uppercase font-bold tracking-widest rounded-full backdrop-blur-md border ${giveaway.status === 'Active' ? 'bg-green-500/20 text-green-400 border-green-500/20' : 'bg-red-500/20 text-red-400 border-red-500/20'}`}>
-                        {giveaway.status}
-                      </span>
-                    </div>
-
-                    <div className="absolute bottom-4 left-4 bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10 flex items-center gap-2">
-                      <Key className="w-3 h-3 text-[#ff6a00]" />
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-white/80">{giveaway.type}</span>
-                    </div>
-                  </div>
-
-                  <div className="p-6 flex flex-col flex-1">
-                    <h3 className="text-xl md:text-2xl font-display font-bold uppercase tracking-tight mb-2 group-hover:text-[#ff6a00] transition-colors">
-                      {giveaway.title}
-                    </h3>
-                    <p className="text-white/60 text-sm leading-relaxed mb-8 flex-1">
-                      {giveaway.description}
-                    </p>
-
-                    <div className="flex items-center justify-between border-t border-white/10 pt-4 mb-6">
-                      <div className="flex items-center gap-2 text-white/60">
-                        <Users className="w-4 h-4" />
-                        <span className="text-xs font-mono font-bold tracking-wider">{giveaway.entries}</span>
+                    <div className="p-8 md:p-16 flex flex-col justify-center relative z-20 h-full">
+                      <div className="flex flex-wrap items-center gap-3 mb-8">
+                        <span className="px-3 py-1 bg-[#ff6a00] text-black text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
+                          <Unlock className="w-3 h-3" /> {featured.status}
+                        </span>
+                        <span className="px-3 py-1 border border-white/20 text-white text-[10px] font-bold uppercase tracking-widest">
+                          {featured.type}
+                        </span>
                       </div>
-                      <div className="flex items-center gap-2 text-white/60">
-                        <Clock className="w-4 h-4" />
-                        <span className="text-xs font-mono font-bold tracking-wider">{giveaway.endsIn}</span>
+                      
+                      <h4 className="text-[#ff6a00] text-xs font-bold tracking-[0.2em] uppercase mb-2">
+                        {featured.subtitle}
+                      </h4>
+                      <h3 className="text-4xl md:text-5xl font-medium tracking-tight mb-6">{featured.title}</h3>
+                      <p className="text-[#888] text-base leading-relaxed mb-12 max-w-xl">
+                        {featured.description}
+                      </p>
+
+                      <div className="flex flex-col sm:flex-row gap-8 justify-between items-start sm:items-center mt-auto p-6 bg-white/[0.02] border border-white/5">
+                        <div className="flex flex-col">
+                          <span className="text-[10px] uppercase tracking-[0.2em] text-[#888] mb-2 font-medium">Closes In</span>
+                          <div className="flex items-center gap-2 font-mono text-xl tracking-tight text-white">
+                            <span>{formatTime(time).h}</span>
+                            <span className="text-[#555]">:</span>
+                            <span>{formatTime(time).m}</span>
+                            <span className="text-[#555]">:</span>
+                            <span>{formatTime(time).s}</span>
+                          </div>
+                        </div>
+
+                        <button 
+                          onClick={() => setSelectedGiveaway(featured.id)}
+                          className="px-8 py-4 bg-white text-black text-xs font-bold uppercase tracking-widest hover:bg-[#e0e0e0] transition-colors w-full sm:w-auto"
+                        >
+                          Request Access
+                        </button>
                       </div>
                     </div>
-
-                    <button 
-                      onClick={() => giveaway.status === 'Active' && setSelectedGiveaway(giveaway.id)}
-                      disabled={giveaway.status === 'Ended'}
-                      className={`w-full py-4 text-xs font-black uppercase tracking-widest rounded-xl transition-all duration-300 flex items-center justify-center gap-2
-                        ${giveaway.status === 'Active' 
-                          ? 'bg-white text-black hover:bg-[#ff6a00] hover:text-white shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:shadow-[0_0_20px_rgba(255,106,0,0.4)]' 
-                          : 'bg-white/5 text-white/40 cursor-not-allowed border border-white/5'
-                        }
-                      `}
-                    >
-                      {giveaway.status === 'Active' ? 'Enter Draw' : 'Draw Closed'}
-                      {giveaway.status === 'Active' && <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />}
-                    </button>
                   </div>
                 </motion.div>
-              ))}
+              </div>
+
+              {/* Standard Vault */}
+              <div>
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="h-[1px] bg-white/10 flex-1" />
+                  <span className="text-xs font-bold tracking-[0.2em] uppercase text-white/30 px-4">Standard Archives</span>
+                  <div className="h-[1px] bg-white/10 flex-1" />
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {standardGiveaways.map((giveaway, i) => (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.1, duration: 0.6 }}
+                      key={giveaway.id}
+                      className={`group flex flex-col bg-[#050505] border border-white/10 transition-all duration-500 overflow-hidden ${giveaway.status === 'Ended' ? 'opacity-40 grayscale' : 'hover:border-white/30'}`}
+                    >
+                      <div className="flex flex-col sm:flex-row h-full">
+                        <div className="w-full sm:w-2/5 relative h-48 sm:h-auto overflow-hidden shrink-0">
+                          <div className="absolute inset-0 bg-black/40 z-10" />
+                          <img 
+                            src={giveaway.image} 
+                            onError={(e) => { e.currentTarget.src = giveaway.fallbackImage }}
+                            alt={giveaway.title} 
+                            className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
+                          />
+                        </div>
+
+                        <div className="p-6 md:p-8 flex flex-col flex-1 relative z-20">
+                          <div className="flex items-center justify-between mb-4">
+                            <span className="text-white/50 text-[9px] font-bold uppercase tracking-widest border border-white/10 px-2 py-1">
+                              {giveaway.type}
+                            </span>
+                            <span className={`text-[9px] flex items-center gap-1 font-bold uppercase tracking-widest ${giveaway.status === 'Active' ? 'text-green-500' : 'text-[#888]'}`}>
+                              {giveaway.status === 'Active' ? <Unlock className="w-3 h-3" /> : <Lock className="w-3 h-3" />}
+                              {giveaway.status}
+                            </span>
+                          </div>
+
+                          <h4 className="text-white/50 text-[10px] font-bold tracking-[0.2em] uppercase mb-1">
+                            {giveaway.subtitle}
+                          </h4>
+                          <h3 className="text-xl font-medium tracking-tight mb-3 text-white">
+                            {giveaway.title}
+                          </h3>
+                          <p className="text-[#888] text-xs leading-relaxed mb-6 flex-1 line-clamp-3">
+                            {giveaway.description}
+                          </p>
+
+                          <div className="mt-auto">
+                            <button
+                              onClick={() => giveaway.status === 'Active' && setSelectedGiveaway(giveaway.id)}
+                              disabled={giveaway.status === 'Ended'}
+                              className={`w-full py-3 border text-xs font-bold uppercase tracking-widest transition-all text-center flex items-center justify-center gap-2 ${giveaway.status === 'Ended' ? 'border-white/10 text-white/20 cursor-not-allowed' : 'border-white/20 text-white hover:bg-white hover:text-black'}`}
+                            >
+                              {giveaway.status === 'Active' ? 'Request Access' : 'Closed'}
+                              {giveaway.status === 'Active' && <ArrowRight className="w-3 h-3" />}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
             </motion.div>
           ) : !isSubmitted ? (
             <motion.div 
               key="form"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              className="max-w-3xl mx-auto pt-12"
             >
               <button 
                 onClick={() => setSelectedGiveaway(null)}
-                className="mb-8 text-xs font-bold uppercase tracking-widest text-white/50 hover:text-white transition-colors"
+                className="mb-12 text-[10px] font-bold uppercase tracking-widest text-[#888] hover:text-white transition-colors flex items-center gap-2"
               >
-                ← Back to Giveaways
+                <ArrowRight className="w-4 h-4 rotate-180" />
+                Return to Directory
               </button>
-              <form 
-                onSubmit={handleSubmit}
-                className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-8 md:p-12 shadow-2xl relative overflow-hidden"
-              >
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#ff6a00]/40 to-transparent opacity-50" />
-                
-                <h2 className="text-3xl font-display font-bold uppercase tracking-tight mb-8">
-                  Enter to <span className="text-[#ff6a00]">Win</span>
-                </h2>
+              
+              <div className="border border-white/10 bg-[#050505] relative p-8 md:p-12">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-[#ff6a00]/10 blur-[50px] pointer-events-none" />
+                <div className="border-b border-white/10 pb-8 mb-8">
+                  <h2 className="text-3xl font-medium tracking-tight mb-2 text-white">
+                    Authentication Required
+                  </h2>
+                  <p className="text-[#888] text-sm">
+                    Provide credentials to secure a profile link for <span className="text-white font-medium">{(giveawayDraws.find(g => g.id === selectedGiveaway)?.title)}</span>.
+                  </p>
+                </div>
 
-                <div className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label htmlFor="firstName" className="block text-xs font-bold tracking-widest uppercase text-white/70">First Name</label>
+                <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-3">
+                      <label htmlFor="firstName" className="block text-[10px] font-bold tracking-widest uppercase text-[#888]">First Name</label>
                       <input 
                         type="text" 
                         id="firstName" 
-                        required
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-white placeholder:text-white/30 focus:outline-none focus:border-[#ff6a00]/40 transition-colors"
-                        placeholder="John"
+                        required 
+                        className="w-full bg-black border border-white/10 px-5 py-4 text-white focus:outline-none focus:border-white transition-colors"
                       />
                     </div>
-                    <div className="space-y-2">
-                      <label htmlFor="lastName" className="block text-xs font-bold tracking-widest uppercase text-white/70">Last Name</label>
+                    <div className="space-y-3">
+                      <label htmlFor="lastName" className="block text-[10px] font-bold tracking-widest uppercase text-[#888]">Last Name</label>
                       <input 
                         type="text" 
                         id="lastName" 
-                        required
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-white placeholder:text-white/30 focus:outline-none focus:border-[#ff6a00]/40 transition-colors"
-                        placeholder="Doe"
+                        required 
+                        className="w-full bg-black border border-white/10 px-5 py-4 text-white focus:outline-none focus:border-white transition-colors"
                       />
                     </div>
                   </div>
                   
-                  <div className="space-y-2">
-                    <label htmlFor="email" className="block text-xs font-bold tracking-widest uppercase text-white/70">Email Address</label>
+                  <div className="space-y-3">
+                    <label htmlFor="email" className="block text-[10px] font-bold tracking-widest uppercase text-[#888]">Secure Email Identity</label>
                     <input 
                       type="email" 
                       id="email" 
-                      required
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-white placeholder:text-white/30 focus:outline-none focus:border-[#ff6a00]/40 transition-colors"
-                      placeholder="john@example.com"
+                      required 
+                      className="w-full bg-black border border-white/10 px-5 py-4 text-white focus:outline-none focus:border-white transition-colors"
                     />
                   </div>
 
-                  <div className="space-y-4 pt-4">
-                    <label className="flex items-start space-x-3 cursor-pointer group">
-                      <div className="relative flex items-center justify-center mt-1">
-                        <input type="checkbox" required className="peer appearance-none w-5 h-5 rounded border border-white/20 bg-white/5 checked:bg-[#ff6a00] checked:border-[#ff6a00] transition-colors cursor-pointer" />
-                        <CheckCircle2 className="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none" />
+                  <div className="pt-4">
+                    <label className="flex items-start gap-4 cursor-pointer group">
+                      <div className="relative flex items-center justify-center mt-1 shrink-0">
+                        <input type="checkbox" required className="peer appearance-none w-4 h-4 border border-white/20 bg-black checked:bg-white checked:border-white transition-colors cursor-pointer" />
+                        <CheckCircle2 className="absolute w-3 h-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none" />
                       </div>
-                      <span className="text-sm text-white/60 group-hover:text-white/80 transition-colors leading-relaxed">
-                        I agree to the Terms & Conditions and understand that I must be 18 years or older to enter.
+                      <span className="text-xs text-[#888] leading-relaxed group-hover:text-[#aaa] transition-colors">
+                        I confirm that I am authorized to enter this draw, am over 18 years of age, and agree to the Terms of Service. Duplicate profiles will be expunged.
                       </span>
                     </label>
                   </div>
 
-                  <div className="pt-6">
+                  <div className="pt-8 border-t border-white/10">
                     <button 
                       type="submit"
-                      className="w-full group flex items-center justify-center px-8 py-4 bg-white text-black rounded-full text-sm font-black tracking-widest uppercase hover:bg-[#ff6a00] hover:text-white transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,106,0,0.3)]"
+                      className="w-full px-8 py-5 bg-white text-black text-xs font-bold uppercase tracking-widest hover:bg-[#ff6a00] hover:text-white transition-colors"
                     >
-                      Submit Entry
-                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                      Authenticate & Confirm
                     </button>
                   </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </motion.div>
           ) : (
             <motion.div 
               key="success"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="max-w-2xl mx-auto bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-12 text-center shadow-2xl relative overflow-hidden"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="max-w-2xl mx-auto mt-24 border border-white/10 bg-[#050505] p-12 text-center relative overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#ff6a00]/10 rounded-full blur-[80px] pointer-events-none" />
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-500/20 mb-6 border border-green-500/30">
-                <CheckCircle2 className="w-10 h-10 text-green-400" />
+              <div className="absolute inset-0 bg-[#ff6a00]/5 pointer-events-none" />
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-green-500/10 mb-8 border border-green-500/20 relative z-10 rotate-45">
+                <CheckCircle2 className="w-8 h-8 text-green-500 -rotate-45" />
               </div>
-              <h2 className="text-3xl md:text-4xl font-display font-bold uppercase tracking-tight mb-4 text-white">
-                Entry Confirmed
+              
+              <h2 className="text-3xl md:text-4xl font-medium tracking-tight mb-4 text-white relative z-10">
+                Credentials Validated
               </h2>
-              <p className="text-white/70 text-lg max-w-md mx-auto mb-8">
-                Good luck! Keep an eye on your inbox, we will contact the winners shortly.
+              <p className="text-[#888] text-base mx-auto mb-10 leading-relaxed max-w-sm relative z-10">
+                Your profile has been secured. Successful drops will be communicated via encrypted transmission exactly at close.
               </p>
+              
               <button 
                 onClick={() => {
                   setIsSubmitted(false);
                   setSelectedGiveaway(null);
                 }}
-                className="px-8 py-4 bg-white/10 hover:bg-white/20 text-white rounded-full text-xs font-bold tracking-widest uppercase transition-colors border border-white/10"
+                className="px-10 py-4 bg-white text-black text-xs font-bold tracking-widest uppercase transition-colors hover:bg-[#e0e0e0] relative z-10"
               >
-                Back to Giveaways
+                Return Home
               </button>
             </motion.div>
           )}
@@ -255,3 +361,5 @@ export const GiveawayPage = () => {
     </div>
   );
 };
+
+

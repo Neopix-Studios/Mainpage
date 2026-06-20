@@ -126,14 +126,6 @@ export const Navbar = () => {
                           <span className="transform group-hover/item:translate-x-1 transition-transform duration-300">HIERARCHY</span>
                           <ArrowUpRight className="w-3 h-3 opacity-0 group-hover/item:opacity-100 transition-opacity duration-300" />
                         </Link>
-                        <Link to="/contact" className="group/item flex items-center justify-between px-4 py-2.5 text-[11px] font-bold tracking-widest text-gray-400 hover:text-white bg-transparent hover:bg-white/10 rounded-lg transition-all duration-300">
-                          <span className="transform group-hover/item:translate-x-1 transition-transform duration-300">CONTACT US</span>
-                          <ArrowUpRight className="w-3 h-3 opacity-0 group-hover/item:opacity-100 transition-opacity duration-300" />
-                        </Link>
-                        <a href="#" className="group/item flex items-center justify-between px-4 py-2.5 text-[11px] font-bold tracking-widest text-gray-400 hover:text-white bg-transparent hover:bg-white/10 rounded-lg transition-all duration-300">
-                          <span className="transform group-hover/item:translate-x-1 transition-transform duration-300">FEEDBACK</span>
-                          <ArrowUpRight className="w-3 h-3 opacity-0 group-hover/item:opacity-100 transition-opacity duration-300" />
-                        </a>
                         <a href="#" className="group/item flex items-center justify-between px-4 py-2.5 text-[11px] font-bold tracking-widest text-gray-400 hover:text-white bg-transparent hover:bg-white/10 rounded-lg transition-all duration-300">
                           <span className="transform group-hover/item:translate-x-1 transition-transform duration-300">COLLAB</span>
                           <ArrowUpRight className="w-3 h-3 opacity-0 group-hover/item:opacity-100 transition-opacity duration-300" />
@@ -231,8 +223,6 @@ export const Navbar = () => {
                           className="flex flex-col pl-4 mt-2 space-y-4 text-base font-bold text-gray-400 overflow-hidden"
                         >
                           <Link to="/hierarchy" onClick={closeMobileMenu} className="hover:text-white uppercase">HIERARCHY</Link>
-                          <Link to="/contact" onClick={closeMobileMenu} className="hover:text-white uppercase">CONTACT US</Link>
-                          <a href="#" className="hover:text-white uppercase text-gray-600">FEEDBACK (SOON)</a>
                           <a href="#" className="hover:text-white uppercase text-gray-600">COLLAB (SOON)</a>
                           <Link to="/careers" onClick={closeMobileMenu} className="hover:text-white uppercase">CAREERS</Link>
                         </motion.div>
